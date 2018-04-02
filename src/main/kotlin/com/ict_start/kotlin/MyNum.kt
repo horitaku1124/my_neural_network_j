@@ -11,6 +11,62 @@ class MyNum {
   private var intData: IntArray? = null
   private var floatData: FloatArray? = null
 
+  operator fun div(that: MyNum):MyNum = MyNum()
+
+  fun divideBy(divideBy: Float) {
+    if (this.type == NumType.IntType) {
+      val newFloatArray = FloatArray(this.size)
+      for (i in 0 until this.size) {
+        newFloatArray[i] = this.intData!![i] / divideBy
+      }
+      this.intData = null
+      this.floatData = newFloatArray
+      this.type = NumType.FloatType
+    } else if (this.type == NumType.FloatType) {
+      for (i in 0 until this.size) {
+        this.floatData!![i] = this.floatData!![i] / divideBy
+      }
+    }
+  }
+
+  fun divideOf(divideOf: Float) :MyNum {
+    val newMyNum = this.clone()
+    if (newMyNum.type == NumType.IntType) {
+      val newFloatArray = FloatArray(newMyNum.size)
+      for (i in 0 until newMyNum.size) {
+        newFloatArray[i] = divideOf / newMyNum.intData!![i]
+      }
+      newMyNum.intData = null
+      newMyNum.floatData = newFloatArray
+      newMyNum.type = NumType.FloatType
+    } else if (newMyNum.type == NumType.FloatType) {
+      for (i in 0 until newMyNum.size) {
+        newMyNum.floatData!![i] = divideOf / newMyNum.floatData!![i]
+      }
+    }
+    return newMyNum
+  }
+
+  fun clone(): MyNum {
+    val newMyNum = MyNum()
+    newMyNum.size = this.size
+    newMyNum.dimension = this.dimension
+    newMyNum.type = this.type
+    newMyNum.intData = this.intData
+    newMyNum.floatData = this.floatData
+    return newMyNum
+  }
+
+  fun print() {
+    for (i in 0 until this.size) {
+      if (this.type == NumType.IntType) {
+        println(this.intData!![i].toString())
+      }
+      if (this.type == NumType.FloatType) {
+        println(this.floatData!![i].toString())
+      }
+    }
+  }
 
   companion object {
     fun zeros(vararg shape: Int) : MyNum {
@@ -28,7 +84,7 @@ class MyNum {
 
       return returnVal
     }
-    fun random(vararg shape: Int) : MyNum {
+    fun randome_randn(vararg shape: Int) : MyNum {
       val returnVal = MyNum()
       returnVal.shape = shape
       returnVal.size = 1
@@ -46,16 +102,17 @@ class MyNum {
 
       return returnVal
     }
-  }
-
-  public fun Print() {
-    for (i in 0 until this.size) {
-      if (this.type == NumType.IntType) {
-        println(this.intData!![i].toString())
-      }
-      if (this.type == NumType.FloatType) {
-        println(this.floatData!![i].toString())
-      }
+    fun num_array(array: IntArray): MyNum {
+      val returnVal = MyNum()
+      returnVal.shape = intArrayOf(array.size)
+      returnVal.type = NumType.IntType
+      returnVal.intData = array
+      returnVal.size = array.size
+      return returnVal
     }
   }
+}
+
+operator fun Float.div(that: MyNum):MyNum {
+  return that.divideOf(this)
 }
