@@ -49,6 +49,7 @@ class DeepConvNet {
     // 重みの初期化===========
     // 各層のニューロンひとつあたりが、前層のニューロンといくつのつながりがあるか（TODO:自動で計算する）
     var preNodeNums = MyNum.num_array(intArrayOf(1*3*3, 16*3*3, 16*3*3, 32*3*3, 32*3*3, 64*3*3, 64*4*4, hiddenSize))
+    var wight_init_scales = MyNum.sqrt(2.0F / preNodeNums)
   }
 
 }

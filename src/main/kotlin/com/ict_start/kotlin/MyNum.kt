@@ -110,6 +110,22 @@ class MyNum {
       returnVal.size = array.size
       return returnVal
     }
+    fun sqrt(that: MyNum): MyNum {
+      if (that.type == NumType.IntType) {
+        val newFloatArray = FloatArray(that.size)
+        for (i in 0 until that.size) {
+          newFloatArray[i] = Math.sqrt(that.intData!![i].toDouble()).toFloat()
+        }
+        that.intData = null
+        that.floatData = newFloatArray
+        that.type = NumType.FloatType
+      } else if (that.type == NumType.FloatType) {
+        for (i in 0 until that.size) {
+          that.floatData!![i] = Math.sqrt(that.floatData!![i].toDouble()).toFloat()
+        }
+      }
+      return that
+    }
   }
 }
 
