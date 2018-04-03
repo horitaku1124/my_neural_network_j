@@ -2,6 +2,7 @@ package com.ict_start.kotlin
 
 import com.ict_start.kotlin.layer.Convolution
 import com.ict_start.kotlin.layer.LayerBase
+import com.ict_start.kotlin.layer.Pooling
 import com.ict_start.kotlin.layer.Relu
 
 class DeepConvNet {
@@ -55,5 +56,14 @@ class DeepConvNet {
     layers.add(Relu())
     layers.add(Convolution(params.get("W2")!!, params.get("b2")!!, param2.num, param2.pad))
     layers.add(Relu())
+
+    layers.add(Pooling(2, 2, 2))
+
+    layers.add(Convolution(params.get("W3")!!, params.get("b3")!!, param3.num, param3.pad))
+    layers.add(Relu())
+    layers.add(Convolution(params.get("W4")!!, params.get("b4")!!, param4.num, param4.pad))
+    layers.add(Relu())
+
+    layers.add(Pooling(2, 2, 2))
   }
 }
