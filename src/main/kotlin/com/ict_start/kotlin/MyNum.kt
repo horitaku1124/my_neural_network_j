@@ -4,6 +4,10 @@ class MyNum {
   enum class NumType {
     IntType, FloatType
   }
+  constructor() {}
+  constructor(type: NumType) {
+    this.type = type
+  }
   private var shape: IntArray? = null
   private var size: Int = 0
   private var dimension: Int = 0
@@ -11,7 +15,6 @@ class MyNum {
   private var intData: IntArray? = null
   private var floatData: FloatArray? = null
 
-  operator fun div(that: MyNum):MyNum = MyNum()
 
   fun divideBy(divideBy: Float) {
     if (this.type == NumType.IntType) {
@@ -29,6 +32,23 @@ class MyNum {
     }
   }
 
+  fun multiplyOf(multiplyOf: Float) :MyNum {
+    val newMyNum = this.clone()
+    if (newMyNum.type == NumType.IntType) {
+      val newFloatArray = FloatArray(newMyNum.size)
+      for (i in 0 until newMyNum.size) {
+        newFloatArray[i] = multiplyOf * newMyNum.intData!![i]
+      }
+      newMyNum.intData = null
+      newMyNum.floatData = newFloatArray
+      newMyNum.type = NumType.FloatType
+    } else if (newMyNum.type == NumType.FloatType) {
+      for (i in 0 until newMyNum.size) {
+        newMyNum.floatData!![i] = multiplyOf * newMyNum.floatData!![i]
+      }
+    }
+    return newMyNum
+  }
   fun divideOf(divideOf: Float) :MyNum {
     val newMyNum = this.clone()
     if (newMyNum.type == NumType.IntType) {
@@ -66,6 +86,17 @@ class MyNum {
         println(this.floatData!![i].toString())
       }
     }
+  }
+
+  fun get(index: Int):Number {
+    if (type == NumType.IntType) {
+      return intData!![index]
+    } else {
+      return floatData!![index]
+    }
+  }
+  fun getF(index: Int): Float {
+    return floatData!![index]
   }
 
   companion object {
@@ -111,24 +142,26 @@ class MyNum {
       return returnVal
     }
     fun sqrt(that: MyNum): MyNum {
+      val returnVal = MyNum(NumType.FloatType)
       if (that.type == NumType.IntType) {
-        val newFloatArray = FloatArray(that.size)
+        returnVal.floatData = FloatArray(that.size)
         for (i in 0 until that.size) {
-          newFloatArray[i] = Math.sqrt(that.intData!![i].toDouble()).toFloat()
+          returnVal.floatData!![i] = Math.sqrt(that.intData!![i].toDouble()).toFloat()
         }
-        that.intData = null
-        that.floatData = newFloatArray
-        that.type = NumType.FloatType
       } else if (that.type == NumType.FloatType) {
         for (i in 0 until that.size) {
-          that.floatData!![i] = Math.sqrt(that.floatData!![i].toDouble()).toFloat()
+          returnVal.floatData!![i] = Math.sqrt(that.floatData!![i].toDouble()).toFloat()
         }
       }
-      return that
+      return returnVal
     }
   }
 }
 
 operator fun Float.div(that: MyNum):MyNum {
   return that.divideOf(this)
+}
+
+operator fun Float.times(that: MyNum): MyNum {
+  return that.multiplyOf(this)
 }
