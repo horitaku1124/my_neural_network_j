@@ -1,12 +1,10 @@
 package com.ict_start.kotlin
 
-import com.ict_start.kotlin.layer.Convolution
-import com.ict_start.kotlin.layer.LayerBase
-import com.ict_start.kotlin.layer.Pooling
-import com.ict_start.kotlin.layer.Relu
+import com.ict_start.kotlin.layer.*
 
 class DeepConvNet {
   var layers: MutableList<LayerBase> = ArrayList()
+  var lastLayer: LayerBase
 
   class FilterParam(filterNum: Int, filterSize: Int, var pad: Int, var stride: Int) {
     var num: Int = filterNum
@@ -65,5 +63,20 @@ class DeepConvNet {
     layers.add(Relu())
 
     layers.add(Pooling(2, 2, 2))
+
+    layers.add(Convolution(params.get("W5")!!, params.get("b5")!!, param5.num, param5.pad))
+    layers.add(Relu())
+    layers.add(Convolution(params.get("W6")!!, params.get("b6")!!, param6.num, param6.pad))
+    layers.add(Relu())
+
+    layers.add(Pooling(2, 2, 2))
+
+    layers.add(Affine(params.get("W7")!!, params.get("b7")!!))
+    layers.add(Relu())
+    layers.add(Dropout(0.5F))
+    layers.add(Affine(params.get("W8")!!, params.get("b8")!!))
+    layers.add(Dropout(0.5F))
+
+    lastLayer = SoftmaxWithLoss()
   }
 }
