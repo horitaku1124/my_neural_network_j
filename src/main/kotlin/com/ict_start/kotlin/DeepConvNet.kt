@@ -79,4 +79,38 @@ class DeepConvNet {
 
     lastLayer = SoftmaxWithLoss()
   }
+
+  public fun predict(x: MyNum, train_flg: Boolean = false): MyNum {
+    var x1 = x
+    for (layer in layers) {
+      if (layer is Dropout) {
+        x1 = layer.forward(x1, train_flg)
+      } else {
+        x1 = layer.backward(x1)
+      }
+    }
+    return x1
+  }
+
+  public fun loss(x: MyNum, t: Boolean): MyNum {
+    var y = predict(x, true)
+    return lastLayer.forward(y, t)
+
+  }
+
+  public fun accuracy(x: MyNum, t: MyNum, batch_size: Int = 100) {
+
+  }
+
+  public fun gradient() {
+
+  }
+
+  public fun save_params() {
+
+  }
+
+  public fun load_params() {
+
+  }
 }

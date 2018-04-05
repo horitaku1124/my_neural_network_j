@@ -15,6 +15,9 @@ class MyNum {
   private var intData: IntArray? = null
   private var floatData: FloatArray? = null
 
+  fun ndim(): Int {
+    return dimension
+  }
 
   fun divideBy(divideBy: Float) {
     if (this.type == NumType.IntType) {
