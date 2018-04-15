@@ -9,7 +9,9 @@ class MyNum {
     this.type = type
   }
   private var shape: IntArray? = null
-  private var size: Int = 0
+  var size: Int = 0
+    get
+    private set
   private var dimension: Int = 0
   private var type: NumType? = null
   private var intData: IntArray? = null

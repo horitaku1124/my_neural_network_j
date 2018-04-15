@@ -14,7 +14,6 @@ buildscript {
     dependencies {
         classpath(kotlinModule("gradle-plugin", kotlin_version))
     }
-    
 }
 
 apply {
@@ -29,6 +28,7 @@ repositories {
 
 dependencies {
     compile(kotlinModule("stdlib-jdk8", kotlin_version))
+    testCompile("junit:junit:4.12")
 }
 
 tasks.withType<KotlinCompile> {
